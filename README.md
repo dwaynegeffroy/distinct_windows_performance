@@ -20,6 +20,7 @@ Comes with alerts for Network, CPU, Memory, Paging File and Disk, ranging from s
 
 ## prerequisites
 Splunk_TA_windows(Standard windows data)
+
 *TA_Performance_Inputs(only if you don't already have the neccessary data activated)
 
 ## Steps
