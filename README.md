@@ -8,13 +8,16 @@
 Gain insights into infrastructure using CPU, Memory, Disk and Metrics in Splunk
 
 ## Dashboards
-Contains overview dashboards for views across your whole environment, as well as metrics and drill downs for more advanced insights.
+- Contains overview dashboards for views across your whole environment, as well as metrics and drill downs for more advanced insights.
+![Overview](https://user-images.githubusercontent.com/10578846/127149427-b67420fd-2d3b-4a8f-a1d8-6349566a0839.PNG)
+![host_status](https://user-images.githubusercontent.com/10578846/127149651-c3861cce-897f-41c4-8117-eead2bb8f4d5.PNG)
 
 ## Reports
-Create and manage thresholds and host information
+- Create and manage thresholds and host information with reports that will fill with information when run
 
 ## Alerts
-Comes with alerts for Network, CPU, Memory, Paging File and Disk, ranging from simple to advanced.
+- Comes with alerts for Host Status, Network, CPU, Memory, Paging File and Disk, ranging from simple to advanced alerts.
+- Easily modify individual servers for easy management of host or application needs.
 
 # Getting Started
 
