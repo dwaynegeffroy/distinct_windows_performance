@@ -1,7 +1,7 @@
 # distinct_windows_performance
  Windows performance monitoring app for Splunk
  
- Copyright 2021- Dwayne Geffroy
+ Copyright 2021 Dwayne Geffroy
  
 # Windows performance monitoring app for Splunk
   
