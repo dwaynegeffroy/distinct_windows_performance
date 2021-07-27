@@ -1,0 +1,63 @@
+<dashboard>
+  <label>Anomolies</label>
+  <description>Finding issues by looking at correlations in metrics</description>
+  <row>
+    <panel>
+      <single>
+        <title>Anomolies</title>
+        <search>
+          <query>| mstats avg("% DPC Time") as dpc_time  avg("% Interrupt Time") as Interrupt_time avg("% User Time") as User_time avg("% Processor Time") as Processor_time avg("% Privileged Time") as Privileged_time where index=winmetrics  BY host instance span=15m  
+| search instance=_Total 
+| fields - instance</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Fundamental Alerts</title>
+        <search>
+          <query>| mstats avg("% Committed Bytes In Use") as perc_mem_used avg("Available MBytes") as Free_MBytes avg("Page Faults/sec") as Page_Faults avg("Page Reads/sec") as Page_Reads avg("Transition Faults/sec") as Transition_Faults avg("Cache Faults/sec") as Cache_Faults where index=winmetrics BY host instance span=15m
+| fields - instance</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Set Alerts</title>
+        <search>
+          <query>| mstats avg("% Free Space") as perc_free_space  avg("Free Megabytes") as Free_MB avg("Avg. Disk Queue Length") as Disk_queue avg("Avg. Disk sec/Transfer") as Latency avg("Disk Transfers/sec") as IOPS  where index=winmetrics  BY host instance span=15m  
+| search instance=_Total 
+| fields - instance</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Server Availabliity</title>
+        <search>
+          <query>| mstats avg("Bytes Sent/sec") as Bytes_Sent avg("Bytes Received/sec") as Bytes_Received avg("Current Bandwidth") as Current_Bandwidth avg("Packets Outbound Discarded") as Packets_Outbound_Discarded avg("Packets Outbound Errors") as Packets_Outbound_Errors avg("Packets Received Discarded") as Packets_Received_Discarded avg("Packets Received Errors") as Packets_Received_Errors where index=winmetrics BY host instance span=15m
+| eval send_utilisation=round((bytes_sent/Current_Bandwidth)*100,5)
+| eval receive_utilisation=round((Bytes_Received/Current_Bandwidth)*100,5)
+| eval Packets_Outbound_Discarded=if(isnull(Packets_Outbound_Discarded),0,Packets_Outbound_Discarded)
+| eval Packets_Outbound_Errors=if(isnull(Packets_Outbound_Errors),0,Packets_Outbound_Errors)
+| eval Packets_Received_Discarded=if(isnull(Packets_Received_Discarded),0,Packets_Received_Discarded)
+| eval Packets_Received_Errors=if(isnull(Packets_Received_Errors),0,Packets_Received_Errors)
+| eval Bytes_Sent=if(isnull(Bytes_Sent),0,Bytes_Sent)
+| eval Bytes_Received=if(isnull(Bytes_Received),0,Bytes_Received)</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+  </row>
+</dashboard>

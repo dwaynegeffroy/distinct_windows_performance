@@ -1,0 +1,62 @@
+<dashboard>
+  <label>Alert Overview</label>
+  <description>Finding issues by looking at correlations in metrics</description>
+  <row>
+    <panel>
+      <single>
+        <title>Total Alerts Last 24hrs</title>
+        <search>
+          <query>| inputlookup distinct_alerts.csv 
+| timechart span=1d count by host</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <chart>
+        <title>Alerts over time</title>
+        <search>
+          <query>| inputlookup distinct_alerts.csv
+| timechart span=1d count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Alerts by type over time</title>
+        <search>
+          <query>| inputlookup distinct_alerts.csv
+| stats count by alert_type</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>Alerts by host over time</title>
+        <search>
+          <query>| inputlookup distinct_alerts.csv
+| stats count by host</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</dashboard>

@@ -1,0 +1,75 @@
+<form>
+  <label>Host Status</label>
+  <description>Get the host status to see when last reported in</description>
+  <fieldset submitButton="false">
+    <input type="time" token="time_token">
+      <label>Time Range</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="text" token="host">
+      <label>Host</label>
+      <default>*</default>
+      <prefix>host=</prefix>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="radio" token="status">
+      <label>Status</label>
+      <choice value="*">All</choice>
+      <choice value="active">Active</choice>
+      <choice value="inactive">Inactive</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Overall Server Status</title>
+      <table>
+        <title>Servers by status</title>
+        <search>
+          <query>| inputlookup host_status.csv
+          | search $host$ $status$
+|  stats count as "Host Count" by status</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Responsiveness over time</title>
+      <chart>
+        <title>avg response time across the environment(ms)</title>
+        <search>
+          <query>| inputlookup host_status.csv
+          | search $host$ $status$
+| timechart avg(checkin_age) as responsiveness</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Server Status List</title>
+      <table>
+        <title>List of server details</title>
+        <search>
+          <query>| inputlookup host_status.csv
+           | search $host$ $status$ </query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>

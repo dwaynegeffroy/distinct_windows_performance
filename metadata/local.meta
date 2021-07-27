@@ -1,0 +1,141 @@
+[app/ui]
+version = 8.0.6
+modtime = 1612504220.661987300
+
+[app/launcher]
+version = 8.0.6
+modtime = 1612504220.675654400
+
+[nav/default]
+version = 8.0.6
+modtime = 1626268616.196634500
+
+[views/overview]
+owner = admin
+version = 8.0.6
+modtime = 1626273896.902637000
+
+[views/fundamental_metrics]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1626273923.056118600
+
+[views/advanced_metrics]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1622380262.253103000
+
+[views/metric_alerts]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1626272235.951518900
+
+[savedsearches/CPU%20Alerts]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1627141782.441899800
+
+[savedsearches/Disk%20Alert]
+owner = admin
+version = 8.0.6
+modtime = 1627141791.189009700
+
+[savedsearches/Memory%20Alerts]
+owner = admin
+version = 8.0.6
+modtime = 1627141808.037720700
+
+[savedsearches/PageFile%20Alert]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1627135356.160974000
+
+[savedsearches/Network%20Alerts]
+owner = admin
+version = 8.0.6
+modtime = 1627137569.232082400
+
+[views/review]
+owner = admin
+version = 8.0.6
+modtime = 1626354550.013667600
+
+[views/host_status]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1626352648.874104500
+
+[savedsearches/host_list]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1622467638.006999000
+
+[savedsearches/host_status%20update]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1622467651.193742000
+
+[macros/winmetrics_index]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1626097687.215867200
+
+[savedsearches/Create%20Host_List]
+version = 8.0.6
+modtime = 1626179184.946397200
+
+[savedsearches/Update%20Host_Status]
+export = none
+owner = nobody
+version = 8.0.6
+modtime = 1627138679.832509500
+
+[indexes/winmetrics]
+owner = admin
+version = 8.0.6
+modtime = 1626181530.863961200
+
+[savedsearches/host%20cpu%20threshold%20lookup%20create]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1626963860.600896600
+
+[savedsearches/host%20disk%20threshold%20lookup%20create]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1627131270.055445800
+
+[savedsearches/host%20memory%20threshold%20lookup%20create]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1626961299.339372200
+
+[savedsearches/host%20network%20threshold%20lookup%20create]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1627130511.115027200
+
+[savedsearches/host%20pagefile%20threshold%20lookup%20create]
+export = none
+owner = admin
+version = 8.0.6
+modtime = 1626964628.324620700

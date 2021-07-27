@@ -1,0 +1,2 @@
+host,instance,active,"high_disk_queue","high_latency","low_disk_space_free_MB","low_disk_space_perc_free_space"
+"WIN-VEQMG5BKEUT","C:",true,20,50,5000,10
