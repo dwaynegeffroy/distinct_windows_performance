@@ -32,7 +32,7 @@
         <search>
           <query>| inputlookup host_status.csv
           | search $host$ $status$
-|  stats count as "Host Count" by status</query>
+|  stats dc(host) as "Host Count" by status</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
@@ -47,7 +47,7 @@
         <search>
           <query>| inputlookup host_status.csv
           | search $host$ $status$
-| timechart avg(checkin_age) as responsiveness</query>
+| timechart avg(checkin_age) as responsiveness by host</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
@@ -64,11 +64,13 @@
         <title>List of server details</title>
         <search>
           <query>| inputlookup host_status.csv
-           | search $host$ $status$ </query>
+           | search $host$ $status$
+           | stats avg(checkin_age) as responsiveness values(status) as Status by host</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
         <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>

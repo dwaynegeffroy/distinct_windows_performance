@@ -1,3 +1,0 @@
-host,instance,active,"packet_issues_packets_outbound_discarded","packet_issues_packets_outbound_errors","packet_issues_packets_received_discarded","packet_issues_packets_received_errors","receive_utilisation_high","send_utilisation_high"
-"WIN-VEQMG5BKEUT","Intel[R] PRO_1000 MT Desktop Adapter",true,0,0,0,0,90,90
-"WIN-VEQMG5BKEUT","Local Area Connection* 2",true,0,0,0,0,90,90

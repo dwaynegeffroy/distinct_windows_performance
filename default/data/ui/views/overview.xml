@@ -1,13 +1,15 @@
 <dashboard>
   <label>Overview</label>
-  <description>Overview of infrastructure performance.</description>
+  <description>Overview of Infrastructure Performance and Alerts</description>
   <row>
     <panel>
       <single>
-        <title>Number of Reporting Hosts</title>
+        <title>Number of Currently Reporting Hosts</title>
         <search>
-          <query>| mstats count(*) where `winmetrics_index` BY host 
-| stats count</query>
+          <query>| inputlookup host_status.csv
+| search status="active"
+|  stats dc(host) by status _time
+| fields - status</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
@@ -17,28 +19,31 @@
     </panel>
     <panel>
       <single>
-        <title>Alerts</title>
+        <title>Alerts in Last 24hrs</title>
         <search>
           <query>| inputlookup distinct_alerts.csv
-| stats count</query>
+| stats count by _time</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
         <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
         <option name="refresh.display">progressbar</option>
       </single>
     </panel>
     <panel>
       <single>
-        <title>Unresponsive Servers</title>
+        <title>Currently Unresponsive Servers</title>
         <search>
           <query>| inputlookup host_status.csv
 | search status="inactive"
-|  stats count by status</query>
+|  stats dc(host) by status _time
+| fields - status</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
         <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
       </single>
     </panel>
   </row>
