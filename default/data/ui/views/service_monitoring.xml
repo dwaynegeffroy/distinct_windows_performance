@@ -1,0 +1,120 @@
+<form>
+  <label>Service Monitoring</label>
+  <description>Service Monitoring Dashboard</description>
+  <fieldset submitButton="false">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Services</title>
+      <input type="text" token="service1">
+        <label>Service</label>
+        <default>All</default>
+        <initialValue>*</initialValue>
+      </input>
+      <input type="text" token="host1">
+        <label>Host</label>
+        <default>ALL</default>
+        <initialValue>*</initialValue>
+      </input>
+      <table>
+        <search>
+          <query>source="service" host="WIN-VEQMG5BKEUT" index="windows" sourcetype="WinHostMon" splunk | stats count by host Type Name DisplayName State Status Started | fields - count</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Service Checker</title>
+      <input type="multiselect" token="service2">
+        <label>Service</label>
+        <choice value="*">ALL</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <valuePrefix>service_name="</valuePrefix>
+        <valueSuffix>"</valueSuffix>
+        <delimiter> OR </delimiter>
+        <fieldForLabel>service_name</fieldForLabel>
+        <fieldForValue>service_name</fieldForValue>
+        <search>
+          <query>|inputlookup service_check.csv | table service_name</query>
+        </search>
+      </input>
+      <input type="text" token="host2">
+        <label>Host</label>
+        <default>ALL</default>
+        <initialValue>*</initialValue>
+        <delimiter> </delimiter>
+      </input>
+      <table>
+        <title>Check for standard services in the lookup</title>
+        <search>
+          <query>source="service" host="WIN-VEQMG5BKEUT" index="windows" sourcetype="WinHostMon"  [|inputlookup service_check.csv | search check_enabled="TRUE" | return 9999 service_name] | stats count by host Type Name DisplayName State Status Started service_name | fields - count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Service Montior</title>
+      <input type="multiselect" token="service3">
+        <label>service</label>
+        <choice value="*">ALL</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <valuePrefix>service_name="</valuePrefix>
+        <valueSuffix>"</valueSuffix>
+        <delimiter> OR </delimiter>
+        <fieldForLabel>service_name</fieldForLabel>
+        <fieldForValue>service_name</fieldForValue>
+        <search>
+          <query>|inputlookup service_monitor.csv | table service_name</query>
+        </search>
+      </input>
+      <input type="multiselect" token="host3">
+        <label>host</label>
+        <choice value="*">ALL</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <valuePrefix>host="</valuePrefix>
+        <valueSuffix>"</valueSuffix>
+        <delimiter> OR </delimiter>
+        <fieldForLabel>service_name</fieldForLabel>
+        <fieldForValue>service_name</fieldForValue>
+        <search>
+          <query>|inputlookup service_monitor.csv | table service_name</query>
+        </search>
+      </input>
+      <table>
+        <search>
+          <query>test</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>
