@@ -46,3 +46,10 @@ This report creates a csv named host_status.csv, by running this report regularl
 ## Threshold Creation Reports
 There are a number of threshold lookups that get created for this app, however the thresholds lookups are only neccessary if you intend to modify thresholds on individual servers, you can modify these as needed to ensure any servers can be updated as needed.
 
+## Added Service Monitor
+A new type of monitoring for services has been added.
+Use the service Monitoring dashboard to view services monitored
+There are two uses, in the service_check.csv, it will find any hosts that run reports
+By then running the report, you can create a service monitor, which will monitor the services as specified
+You can also manually edit with a editor of choice
+
