@@ -2,7 +2,7 @@
   <label>Service Monitoring</label>
   <description>Service Monitoring Dashboard</description>
   <fieldset submitButton="false">
-    <input type="time" token="field1">
+    <input type="time" token="time_token">
       <label></label>
       <default>
         <earliest>-24h@h</earliest>
@@ -15,19 +15,20 @@
       <title>Services</title>
       <input type="text" token="service1">
         <label>Service</label>
-        <default>All</default>
+        <default>*</default>
         <initialValue>*</initialValue>
       </input>
       <input type="text" token="host1">
         <label>Host</label>
-        <default>ALL</default>
+        <default>*</default>
         <initialValue>*</initialValue>
       </input>
       <table>
+        <title>View Any available services</title>
         <search>
-          <query>source="service" host="WIN-VEQMG5BKEUT" index="windows" sourcetype="WinHostMon" splunk | stats count by host Type Name DisplayName State Status Started | fields - count</query>
-          <earliest>0</earliest>
-          <latest></latest>
+          <query>source="service" host="WIN-VEQMG5BKEUT" `winservice_index` sourcetype="WinHostMon" $service1$ $host1$ | stats count by host Type Name DisplayName State Status Started | fields - count</query>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="count">20</option>
@@ -60,16 +61,15 @@
       </input>
       <input type="text" token="host2">
         <label>Host</label>
-        <default>ALL</default>
+        <default>*</default>
         <initialValue>*</initialValue>
-        <delimiter> </delimiter>
       </input>
       <table>
-        <title>Check for standard services in the lookup</title>
+        <title>Check for standard services included in the service check lookup</title>
         <search>
-          <query>source="service" host="WIN-VEQMG5BKEUT" index="windows" sourcetype="WinHostMon"  [|inputlookup service_check.csv | search check_enabled="TRUE" | return 9999 service_name] | stats count by host Type Name DisplayName State Status Started service_name | fields - count</query>
-          <earliest>-24h@h</earliest>
-          <latest>now</latest>
+          <query>source="service" host="WIN-VEQMG5BKEUT" `winservice_index` sourcetype="WinHostMon"  $host2$ [|inputlookup service_check.csv | search check_enabled="TRUE" $service2$ | return 9999 service_name] | stats count by host Type Name DisplayName State Status Started service_name | fields - count</query>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
@@ -78,9 +78,9 @@
   </row>
   <row>
     <panel>
-      <title>Service Montior</title>
+      <title>Service Monitor</title>
       <input type="multiselect" token="service3">
-        <label>service</label>
+        <label>Service</label>
         <choice value="*">ALL</choice>
         <default>*</default>
         <initialValue>*</initialValue>
@@ -90,30 +90,32 @@
         <fieldForLabel>service_name</fieldForLabel>
         <fieldForValue>service_name</fieldForValue>
         <search>
-          <query>|inputlookup service_monitor.csv | table service_name</query>
+          <query>|inputlookup service_monitor.csv | stats count by service_name</query>
         </search>
       </input>
       <input type="multiselect" token="host3">
-        <label>host</label>
+        <label>Host</label>
         <choice value="*">ALL</choice>
         <default>*</default>
         <initialValue>*</initialValue>
         <valuePrefix>host="</valuePrefix>
         <valueSuffix>"</valueSuffix>
         <delimiter> OR </delimiter>
-        <fieldForLabel>service_name</fieldForLabel>
-        <fieldForValue>service_name</fieldForValue>
+        <fieldForLabel>host</fieldForLabel>
+        <fieldForValue>host</fieldForValue>
         <search>
-          <query>|inputlookup service_monitor.csv | table service_name</query>
+          <query>|inputlookup service_monitor.csv | stats count by host</query>
         </search>
       </input>
       <table>
+        <title>Check the status of services being monitored</title>
         <search>
-          <query>test</query>
-          <earliest>-24h@h</earliest>
-          <latest>now</latest>
+          <query>source="service" host="WIN-VEQMG5BKEUT" `winservice_index` sourcetype="WinHostMon"  [|inputlookup service_monitor.csv | search check_enabled="TRUE" $service3$ $host3$ | return 9999 service_name] | stats count by host Type Name DisplayName State Status Started service_name | fields - count</query>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
         </search>
         <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>

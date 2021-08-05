@@ -4,8 +4,9 @@
   <view name="fundamental_metrics"/>
   <view name="advanced_metrics"/>
   <view name="metric_alerts"/>
-  <view name="host_status"/>
+  <view name="host_status"/> 
   <view name="review"/>
+  <view name="service_monitoring"/>
   <collection label="Advanced">
     <view name="datasets" />
     <view name="reports" />
