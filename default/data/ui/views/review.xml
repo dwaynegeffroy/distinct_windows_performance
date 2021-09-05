@@ -42,7 +42,17 @@
           <query>| mstats avg("% Free Space") as perc_free_space  avg("Free Megabytes") as Free_MB  where `winmetrics_index` $host$ BY host instance span=15m  
 | search  instance=*:
 | eval perc_free_space=round(perc_free_space,2)
-| eval Free_MB=round(Free_MB,2)</query>
+| eval Free_MB=round(Free_MB,2)
+| eval hostinstance=host . instance
+| `lineartrendby(_time,Free_MB,hostinstance)`
+| eval split=60/(((lasttime-firsttime)/(numevents-1))/60)
+| delta newY as diff
+| eval diff=if(diff&gt;0,10,diff)
+| eval hours_Till_Full=Free_MB/abs(diff*split)
+| eval hours_Till_Full=if(diff=0,"10000",hours_Till_Full)
+| eval hours_Till_Full=round(hours_Till_Full,2)
+| fields - hostinstance newY R R2 diff lasttime firsttime split
+| fields - numevents slope sumX sumX2 sumXY sumY sumY2 yintercept</query>
           <earliest>$time_token.earliest$</earliest>
           <latest>$time_token.latest$</latest>
         </search>
